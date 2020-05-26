@@ -1,36 +1,40 @@
 import React, { useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input } from 'react-native-elements';
 import { TextInput, Button } from 'react-native-paper';
 import { Image } from 'react-native';
+import api from '../../services/api';
+import WarningModal from '../../assets/components/Modal/WarningModal';
 import {
   Container, Card, Link, styles, Logo,
 } from './styles';
-import WarningModal from '../../assets/components/Modal/WarningModal';
-import api from '../../services/api';
 import LogoImg from '../../assets/components/Header/assets/images/logo_transparent.png';
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
   const [statusError, setStatusError] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [textEmail, setTextEmail] = useState('');
   const [textPass, setTextPass] = useState('');
+  const [textName, setTextName] = useState('');
+  const [textNasc, setTextNasc] = useState('');
 
-  const auth = async () => {
-    if (textEmail.length === 0 || textPass.length === 0) {
+  const register = async () => {
+    if (textEmail.length === 0 || textPass.length === 0
+      || textName.length === 0 || textNasc.length === 0) {
       setLoadingButton(false);
       setStatusError(true);
     } else {
       try {
         setLoadingButton(true);
-        const response = await api.post('/autenticar', {
+        const response = await api.post('/usuario', {
           email: textEmail,
           senha: textPass,
+          nome: textName,
+          data_nascimento: textNasc,
+          tipo_usuario_id: 1,
         });
         setLoadingButton(false);
-        if (response.data.data !== 'Dados inválidos') {
-          navigation.navigate('Dashboard');
+        if (response.data.data !== 'Email já está em uso') {
+          navigation.navigate('Auth');
         } else {
           setModalVisible(true);
         }
@@ -39,23 +43,34 @@ const Login = ({ navigation }) => {
       }
     }
   };
-
   return (
     <Container>
-      <Image
-        style={{
-          marginTop: '0%',
-          width: 180,
-          height: 180,
-          alignSelf: 'center',
-          resizeMode: 'contain',
-        }}
-        source={require('../../assets/images/logo_transparent.png')}
-      />
       <Card>
         <Logo>
-          
+          <Image
+            style={{
+              marginTop: '10%',
+              width: 180,
+              height: 180,
+              alignSelf: 'center',
+              resizeMode: 'contain',
+            }}
+            source={LogoImg}
+          />
         </Logo>
+        <TextInput
+          label="Nome"
+          mode="outlined"
+          value={textName}
+          error={statusError}
+          onChangeText={(txt) => setTextName(txt)}
+          style={styles.textInput}
+          theme={{
+            colors: {
+              primary: '#4B0082',
+            },
+          }}
+        />
         <TextInput
           label="Email"
           mode="outlined"
@@ -69,17 +84,19 @@ const Login = ({ navigation }) => {
               primary: '#4B0082',
             },
           }}
-        /> */}
-        <Input
-          containerStyle = {styles.campusInputContainer}
-          placeholder='Usuário'
-          leftIcon={
-            <Icon
-              name='user'
-              size={20}
-              color='black'
-            />
-          }
+        />
+        <TextInput
+          label="Data de nascimento"
+          mode="outlined"
+          value={textNasc}
+          error={statusError}
+          onChangeText={(txt) => setTextNasc(txt)}
+          style={styles.textInput}
+          theme={{
+            colors: {
+              primary: '#4B0082',
+            },
+          }}
         />
         <TextInput
           label="Senha"
@@ -94,26 +111,26 @@ const Login = ({ navigation }) => {
               primary: '#4B0082',
             },
           }}
-        /> */}
+        />
         <Button
           loading={loadingButton}
           mode="contained"
-          onPress={() => auth()}
+          onPress={() => register()}
           style={styles.button}
           labelStyle={styles.buttonLabel}
         >
-          Continuar
+          CADASTRAR
         </Button>
-        <Link onPress={() => navigation.navigate('Register')} href={{}}>Não tem cadastro? Cadastre-se</Link>
+        <Link onPress={() => navigation.navigate('Auth')} href={{}}>LOGIN</Link>
       </Card>
       <WarningModal
         visible={modalVisible}
         onDismiss={() => setModalVisible(false)}
-        message="Usuário ou senha incorretos"
+        message="Erro, verifique se o email ja foi cadastrado"
         btnText="tentar novamente"
       />
     </Container>
   );
 };
 
-export default Login;
+export default Register;

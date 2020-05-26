@@ -1,36 +1,40 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import React from 'react';
-import Dashboard from './Dashboard';
 import Profile from '../Profile';
 import TabBarIcon from '../../assets/components/TabBarIcon';
 import { CommunityStack } from '../Community';
+import { ContentStack } from '../Content';
+import { DashboardStack } from './pages/index';
 
 export const DashboardTabs = createBottomTabNavigator({
   Home: {
-    screen: Dashboard,
+    screen: DashboardStack,
     navigationOptions: {
       tabBarLabel: 'Home',
+    },
+  },
+  Content: {
+    screen: ContentStack,
+    navigationOptions: {
+      tabBarLabel: 'Conteúdos',
     },
   },
   Community: {
     screen: CommunityStack,
     navigationOptions: {
-      tabBarLabel: 'Community',
+      tabBarLabel: 'Comunidade',
     },
   },
   Profile: {
     screen: Profile,
     navigationOptions: {
-      tabBarLabel: 'Profile',
+      tabBarLabel: 'Perfil',
     },
   },
 }, {
   defaultNavigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused }) => <TabBarIcon navigation={navigation} focused={focused} />,
   }),
-  /**
-   * Tab theme colors
-   */
   tabBarOptions: {
     activeTintColor: '#ffffff',
     inactiveTintColor: 'rgba(255, 255, 255, 0.4)',
@@ -42,4 +46,4 @@ export const DashboardTabs = createBottomTabNavigator({
   },
 });
 
-export default Dashboard;
+export default DashboardStack;

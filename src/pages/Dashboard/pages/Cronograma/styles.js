@@ -2,14 +2,33 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: '10%',
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  viewImage: {
+  title: {
     width: '100%',
-    height: 300,
     alignItems: 'center',
+  },
+  dataText: {
+    marginTop: 30,
+    marginLeft: 20,
+    color: '#008BD9',
+    fontSize: 17,
+  },
+  vestData: {
+    marginLeft: 20,
+    marginTop: 5,
+    fontSize: 15,
+  },
+  dataLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#D7D7D7',
+    marginBottom: 5,
+  },
+  titleText: {
+    color: '#008BD9',
+    fontSize: 17,
+    marginTop: 15,
   },
   image: {
     flex: 2,
@@ -24,8 +43,8 @@ export default StyleSheet.create({
   textName: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#4B0082',
-    marginTop: '2%',
+    color: 'black',
+    marginTop: 0,
   },
   textNumber: {
     fontWeight: 'bold',
@@ -56,8 +75,7 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   textSchool: {
-    marginTop: '2%',
-    fontSize: 15,
+    fontSize: 10,
     color: 'gray',
   },
 });
